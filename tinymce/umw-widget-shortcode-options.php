@@ -3,7 +3,7 @@
  * Displays the administration window for the Visual Editor plugin
  * @package WordPress
  * @subpackage UMW Widget Shortcodes
- * @version 0.1
+ * @version 0.1.10
  * @author cgrymala
  */
 
@@ -45,8 +45,27 @@ wp_admin_css( 'wp-admin', true );
 	$wct = 0;
 	foreach( $widgets as $wid ) {
 		$widget_info = $wp_registered_widgets[$wid];
+		/*print( "\n<!-- Widget Info:\n" );
+		var_dump( $widget_info );
+		print( "\n-->\n" );*/
+		
+		$widget_title = '';
+		
+		if ( array_key_exists( 'callback', $widget_info ) && is_object( $widget_info['callback'][0] ) ) {
+			$cbobj = $widget_info['callback'][0];
+			$widget_instance_id = ( array_key_exists( 'params', $widget_info ) && isset( $widget_info['params'][0] ) && isset( $widget_info['params'][0]['number'] ) ) ? $widget_info['params'][0]['number'] : false;
+			if ( false !== $widget_instance_id ) {
+				$widget_options = $cbobj->get_settings();
+				/*print( "\n<!-- Widget options:\n" );
+				var_dump( $widget_options );
+				print( "\n-->\n" );*/
+				if ( isset( $widget_options[$widget_instance_id] ) && array_key_exists( 'title', $widget_options[$widget_instance_id] ) ) {
+					$widget_title = sprintf( ' <strong>%s</strong>', $widget_options[$widget_instance_id]['title'] );
+				}
+			}
+		}
 ?>
-				<li class="<?php echo $wct%2 ? 'odd' : 'even' ?>"><input type="radio" name="widget_id" id="widget_id_<?php echo $wid ?>" value="<?php echo $wid ?>" /> <label for="widget_id_<?php echo $wid ?>"><?php echo $widget_info['name'] ?> <em>(<?php echo $wid ?>)</em></label><br class="clear" /></li>
+				<li class="<?php echo $wct%2 ? 'odd' : 'even' ?>"><input type="radio" name="widget_id" id="widget_id_<?php echo $wid ?>" value="<?php echo $wid ?>" /> <label for="widget_id_<?php echo $wid ?>"><?php printf( '[%1$s]%2$s <em>(%3$s)</em>', $widget_info['name'], $widget_title, $wid ) ?></label><br class="clear" /></li>
 <?php
 		$wct++;
 	}

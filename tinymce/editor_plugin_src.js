@@ -7,7 +7,7 @@
  * License: http://tinymce.moxiecode.com/license
  * Contributing: http://tinymce.moxiecode.com/contributing
  *
- * Implements the TinyMCE plugin for the MTFAC shortcode insertion
+ * Implements the TinyMCE plugin for the Widget shortcode insertion
  * This is just a source file (for development purposes). The minified version of this file
  * 		is the one that is actually used by the plugin
  * @see editor_plugin.js
@@ -78,7 +78,7 @@
 				author : 'Curtiss Grymala',
 				authorurl : 'http://umw.edu/',
 				infourl : 'http://umw.edu/',
-				version : "0.1"
+				version : "0.1.10"
 			};
 		}
 	});

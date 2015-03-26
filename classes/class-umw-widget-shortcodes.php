@@ -33,7 +33,7 @@ if ( ! class_exists( 'umw_widget_shortcodes' ) ) {
 				require_once( ABSPATH . WPINC . '/widgets.php' );
 			
 			// init process for MCS button control
-			$this->add_buttons();
+			add_action( 'admin_init', array( $this, 'add_buttons' ) );
 			add_action( 'admin_print_styles', array( $this, 'print_admin_styles' ) );
 		}
 		
