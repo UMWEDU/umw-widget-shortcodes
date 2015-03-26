@@ -63,14 +63,16 @@ if ( ! class_exists( 'umw_widget_shortcodes' ) ) {
 			), $atts ) );
 			
 			if ( empty( $id ) || ! array_key_exists( $id, $wp_registered_widgets ) ) {
-				error_log( '[UMW Widget Shortcodes] The ID appears to be empty' );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+					error_log( '[UMW Widget Shortcodes] The ID appears to be empty' );
 				return false;
 			}
 			
 			$widget = $wp_registered_widgets[$id];
 			
 			if ( ! array_key_exists( 'callback_wl_redirect', $widget ) && ! array_key_exists( 'callback', $widget ) ) {
-				error_log( '[UMW Widget Shortcodes] The callback does not seem to exist in the widget' );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+					error_log( '[UMW Widget Shortcodes] The callback does not seem to exist in the widget' );
 				return false;
 			}
 			
@@ -129,7 +131,8 @@ if ( ! class_exists( 'umw_widget_shortcodes' ) ) {
 					call_user_func( $callback, $args, $widget_id );
 				$output .= ob_get_clean();
 			} else {
-				error_log( '[UMW Widget Shortcodes]: ' . $callback->get_error_message() );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+					error_log( '[UMW Widget Shortcodes]: ' . $callback->get_error_message() );
 				$output .= "\n<!-- " . $callback->get_error_message() . " -->\n";
 			}
 			
